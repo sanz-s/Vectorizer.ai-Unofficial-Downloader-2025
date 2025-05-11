@@ -2,7 +2,7 @@
 
 **A Python Script to Automate Downloads from Vectorizer AI 🚀**
 
-This unofficial Python script allows users to upload files and download processed results from Vectorizer AI with ease. 🤩
+This unofficial Python script allows users to upload files and download processed results from [Vectorizer AI](https://vectorizer.ai/) with ease. 🤩
 
 ## 🚨 Prerequisites
 * Python installed on your machine 🐍
