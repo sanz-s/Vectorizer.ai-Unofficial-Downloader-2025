@@ -15,6 +15,7 @@ This unofficial Python script allows users to upload files and download processe
 pip install drissionpage
 ```
 <br>
+
 ### 🚀 *Run the Python Script*: 
 ```bash 
 python vectorizer.py
