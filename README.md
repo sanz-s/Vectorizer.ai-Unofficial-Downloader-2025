@@ -10,7 +10,9 @@ This unofficial Python script allows users to upload files and download processe
 * `drissionpage` library installed (see below) 📚
 <br>
 <br>
-### 📦 Install Dependencies
+
+### 📦 Install Dependencies 
+
 ```bash
 pip install drissionpage
 ```
