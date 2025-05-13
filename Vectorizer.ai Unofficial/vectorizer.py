@@ -38,7 +38,7 @@ def main():
 
     with open('output.svg', 'w', encoding='utf-8') as f:
         f.write(val)
-    val = page.run_js('alert("Download Successful!")')
+        page.run_js('alert("Download Successful!")')
 
 if __name__ == "__main__":
     main()
