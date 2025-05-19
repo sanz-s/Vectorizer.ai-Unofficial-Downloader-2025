@@ -1,44 +1,44 @@
 from DrissionPage import ChromiumPage
 import time
 
-def wait_for_url_stable(page, wait_secs=3):
-    last_url = ''
-    stable_count = 0
-    while stable_count < wait_secs * 2:
-        curr_url = page.url
-        if curr_url == last_url:
-            stable_count += 1
-        else:
-            stable_count = 0
-            last_url = curr_url
-        time.sleep(0.5)
+dp = ChromiumPage()
 
-def main():
-    page = ChromiumPage()
-    page.get('https://vectorizer.ai/')
+last_url = dp.url
+print('👀 Watching for navigation...')
+dp.get("https://vectorizer.ai/");
 
-    wait_for_url_stable(page)
+while True:
+    current_url = dp.url
+    if current_url != last_url:
+        print(f'🚀 New page loaded: {current_url}')
 
-   
-    with open('inject.js', 'r', encoding='utf-8') as f:
-        inject_js = f.read()
-    page.run_js(inject_js)
+        with open('inject.js', 'r', encoding='utf-8') as f:
+            inject_js = f.read()
+        dp.run_js(inject_js)
+        time.sleep(0.5);
+        if(dp.url.startswith("https://vectorizer.ai/images/") and dp.url.endswith("edit")):
+            while True:
+                bar = dp.ele('#App-Progress-Download-Bar')
+                if not bar:
+                    time.sleep(0.5)
+                    continue
+                width = bar.style('width')
+                if width == '100%' or not(dp.url.startswith("https://vectorizer.ai/images/") and dp.url.endswith("edit")):
+                    break
+                time.sleep(0.5)
 
-    while True:
-        bar = page.ele('#App-Progress-Download-Bar')
-        if not bar:
-            time.sleep(0.5)
-            continue
-        width = bar.style('width')
-        if width == '100%':
-            break
-        time.sleep(0.5)
+            dp.run_js('''document.querySelector(".showPaid").innerHTML = "Free Download";
+                         document.querySelector("#App-DownloadLink").href = "javascript:void(0)";
+                         document.querySelector("#App-DownloadLink").style.background = "lightgreen";
+                         document.querySelector("#App-DownloadLink").onclick = function(){
+                            var a = document.createElement("a");
+                            a.download = document.querySelector("title").innerText.split(".")[0].trim()+".svg";
+                            a.href = window.URL.createObjectURL(new Blob([down()],{type:"image/svg+xml"}));
+                            a.click();
+                         };
+                         alert("Free Download Activated !");
+                    ''')
+            
+        last_url = current_url
 
-    val = page.run_js('return down();')
-
-    with open('output.svg', 'w', encoding='utf-8') as f:
-        f.write(val)
-        page.run_js('alert("Download Successful!")')
-
-if __name__ == "__main__":
-    main()
+    time.sleep(0.5)

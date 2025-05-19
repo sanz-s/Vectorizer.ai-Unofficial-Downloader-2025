@@ -257,4 +257,4 @@ window.down = function() {
         svgEl.appendChild(el);
     });
     return svgEl.outerHTML;
-}
+};
