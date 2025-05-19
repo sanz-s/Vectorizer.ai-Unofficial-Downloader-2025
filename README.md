@@ -25,7 +25,7 @@ python vectorizer.py
 <br>
 
 ###### 📤 Upload your file through the web page.
-###### "Download Successful!" alert will Notify You.
+###### Press "Free Download" Boom !
 
 <br>
 <br>
