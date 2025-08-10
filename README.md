@@ -4,6 +4,7 @@
 
 This unofficial Python script allows users to upload files and download processed results from [Vectorizer AI](https://vectorizer.ai/) with ease. 🤩
 
+Check this out: https://github.com/sanz-s/Vrex.js (Used Here)
 <br>
 
 ## 🚨 Prerequisites
