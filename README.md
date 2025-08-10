@@ -30,7 +30,7 @@ python vectorizer.py
 ###### Press "Free Download" Boom !
 <br>
 <br>
-*⚠️ License*
+⚠️ *License*
 This unofficial tool is not endorsed by Vectorizer AI. Use at your own risk. 🤝
 <br>
 <br>
