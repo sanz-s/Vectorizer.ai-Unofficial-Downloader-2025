@@ -1,4 +1,5 @@
-class CustomPath2D extends Path2D {
+//Vrex.js vist: https://github.com/sanz-s/Vrex.js 
+class Vrex extends Path2D {
     constructor() {
         super();
         this.pathData = '';
@@ -193,10 +194,10 @@ class CustomPath2D extends Path2D {
     }
 };
 
-window.Path2D = CustomPath2D;
+window.Path2D = Vrex;
 const origFill = CanvasRenderingContext2D.prototype.fill;
 const origStroke = CanvasRenderingContext2D.prototype.stroke;
-
+const progress = document.querySelector("#App-Progress-Download-Bar");
 function serializePath(path, ctx) {
     const d = path.getPathData().trim();
     const t = ctx.getTransform();
@@ -206,11 +207,10 @@ function serializePath(path, ctx) {
         m
     };
 }
-
 CanvasRenderingContext2D.prototype.fill = function(path) {
     if (arguments.length) origFill.call(this, path);
     else origFill.call(this);
-    if (path instanceof Path2D) {
+    if (path instanceof Path2D && window.getComputedStyle(progress).width != "100%") {
         const {
             d,
             m
@@ -228,7 +228,7 @@ CanvasRenderingContext2D.prototype.fill = function(path) {
 CanvasRenderingContext2D.prototype.stroke = function(path) {
     if (arguments.length) origStroke.call(this, path);
     else origStroke.call(this);
-    if (path instanceof Path2D) {
+    if (path instanceof Path2D && window.getComputedStyle(progress).width != "100%") {
         const {
             d,
             m
@@ -245,8 +245,9 @@ CanvasRenderingContext2D.prototype.stroke = function(path) {
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 if (!window.svgmaker) window.svgmaker = [];
-
-window.down = function() {
+window.down = function(e) {
+    e.preventDefault();
+    window.isActivated = "done";
     const svgEl = document.createElementNS(SVG_NS, 'svg');
     svgEl.setAttribute('xmlns', SVG_NS);
     window.svgmaker.forEach(obj => {
@@ -256,5 +257,33 @@ window.down = function() {
         }
         svgEl.appendChild(el);
     });
-    return svgEl.outerHTML;
+    console.log(svgEl.outerHTML);
+    var name = document.querySelector("title").textContent.split("-")[0].trim().split(".");
+    name[name.length-1] = "svg";
+    downloadSVG(name.join("."),svgEl.outerHTML);
+}
+
+function downloadSVG(filename, svgXml) {
+  const blob = new Blob([svgXml], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+document.querySelector('#App-DownloadLink').style.background='#03c12d';
+document.querySelector('#App-DownloadLink .showPaid').style.display='none';
+document.querySelector('#App-DownloadLink .showFree').style.display='inline';
+document.querySelector('#App-DownloadLink').onclick = down;
+document.querySelector('#App-DownloadLink').onmouseover = ()=>{
+    document.querySelector('#App-DownloadLink').removeAttribute("href");
 };
+
+window.isActivated = "true";
